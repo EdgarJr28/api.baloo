@@ -1,0 +1,1 @@
+{"version":3,"file":"AuthConfig.js","sourceRoot":"","sources":["../../src/appleSignin/AuthConfig.ts"],"names":[],"mappings":";;;AAAa,QAAA,0BAA0B,GAAG,EAAE,CAAC;AAChC,QAAA,YAAY,GAAE;IACvB,kBAAkB,EAAC,oDAAoD;IACvE,KAAK,EACL;;;;;8BAK0B;IAE1B,KAAK,EAAC,YAAY;IACjB,QAAQ,EAAC,mBAAmB;IAC5B,SAAS,EAAC,6BAA6B;IACvC,MAAM,EAAC,YAAY;CACvB,CAAC"}

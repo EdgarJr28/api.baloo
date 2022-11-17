@@ -1,0 +1,1 @@
+{"version":3,"file":"returnmodel.js","sourceRoot":"","sources":["../../src/models/returnmodel.ts"],"names":[],"mappings":";;;AAAA,SAAgB,WAAW,CAAC,IAAQ;IAEhC,MAAM,OAAO,GAAG;QACZ,MAAM,EAAC,IAAI,aAAJ,IAAI,uBAAJ,IAAI,CAAE,IAAI;QACjB,IAAI,EAAC,IAAI,aAAJ,IAAI,uBAAJ,IAAI,CAAE,EAAE;QACb,OAAO,EAAC,IAAI,aAAJ,IAAI,uBAAJ,IAAI,CAAE,KAAK;KACtB,CAAA;IACD,OAAO,OAAO,CAAC;AACnB,CAAC;AARD,kCAQC"}
