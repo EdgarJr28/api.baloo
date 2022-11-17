@@ -36,7 +36,6 @@ dotenv.config({ path: path.resolve("./.env") });
 const server = Server.instance;
 
 perareConfig();
-createFolders();
 
 APP.use(express.json());
 APP.use(express.urlencoded({ extended: false }));
