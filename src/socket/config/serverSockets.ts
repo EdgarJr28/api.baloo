@@ -61,6 +61,9 @@ export default class ServerSocket {
                 // Conecta Cliente
                 socket.conectarCliente(cliente)
 
+                // sala personal para mensajes
+                socket.mensajePersonal(cliente, this.io)
+
                 // Mensajes
                 socket.mensaje(cliente, this.io);
                 // Desconectar

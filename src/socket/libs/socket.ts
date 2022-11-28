@@ -12,10 +12,23 @@ export const usuariosConectados = new UsuariosLista();
 
 export const conectarCliente = (cliente: Socket) => {
     const usuario = new Usuario(cliente.id)
+    cliente.join("1234")
     usuariosConectados.agregar(usuario)
 
 }
 
+export const mensajePersonal = (cliente: Socket, io: socketIO.Server) => {
+    cliente.on("mensaje-personal", async (payload) => {
+        // TODO: Grabar mensaje
+        //await grabarMensaje(payload);
+        io.to(payload.para).emit("mensaje-personal", payload);
+    });
+}
+
+export const salaPesonal = (cliente: Socket, uid: any) => {
+    cliente.join(uid);
+    console.log(`client whit UID : ${uid} conected.`)
+}
 
 export const desconectar = (cliente: Socket, io: socketIO.Server) => {
 
@@ -45,16 +58,20 @@ export const mensaje = (cliente: Socket, io: socketIO.Server) => {
 
 // Escuchar mensajes
 export const configurarUsuario = (cliente: Socket, io: socketIO.Server) => {
+    try {
+        cliente.on('configurar-usuario', (payload: { nombre: string, id: string }, callback: Function) => {
+            usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.id)
+            salaPesonal(cliente, payload.id)
+            io.emit('usuarios-activos', usuariosConectados.getLista());
+            callback({
+                ok: true,
+                mensaje: `Usuario ${payload.nombre} configurado`
+            })
+        });
+    } catch (e: any) {
+        throw new Error(e.message);
+    }
 
-    cliente.on('configurar-usuario', (payload: { nombre: string, id: string }, callback: Function) => {
-        usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.id)
-        io.emit('usuarios-activos', usuariosConectados.getLista());
-        callback({
-            ok: true,
-            mensaje: `Usuario ${payload.nombre} configurado`
-        })
-
-    });
 
 }
 

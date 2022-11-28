@@ -55,6 +55,7 @@ class ServerSocket {
                 socket.configurarUsuario(cliente, this.io);
                 socket.obtenerUsuarios(cliente, this.io);
                 socket.conectarCliente(cliente);
+                socket.mensajePersonal(cliente, this.io);
                 socket.mensaje(cliente, this.io);
                 socket.desconectar(cliente, this.io);
                 socket.errorConexSocket(cliente, this.io);

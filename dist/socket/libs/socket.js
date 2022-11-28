@@ -1,14 +1,35 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mensajePrivado = exports.errorConexSocket = exports.obtenerUsuarios = exports.configurarUsuario = exports.mensaje = exports.desconectar = exports.conectarCliente = exports.usuariosConectados = void 0;
+exports.mensajePrivado = exports.errorConexSocket = exports.obtenerUsuarios = exports.configurarUsuario = exports.mensaje = exports.desconectar = exports.salaPesonal = exports.mensajePersonal = exports.conectarCliente = exports.usuariosConectados = void 0;
 const usuarios_lista_1 = require("../classes/usuarios-lista");
 const usuario_1 = require("../models/usuario");
 exports.usuariosConectados = new usuarios_lista_1.UsuariosLista();
 const conectarCliente = (cliente) => {
     const usuario = new usuario_1.Usuario(cliente.id);
+    cliente.join("1234");
     exports.usuariosConectados.agregar(usuario);
 };
 exports.conectarCliente = conectarCliente;
+const mensajePersonal = (cliente, io) => {
+    cliente.on("mensaje-personal", (payload) => __awaiter(void 0, void 0, void 0, function* () {
+        io.to(payload.para).emit("mensaje-personal", payload);
+    }));
+};
+exports.mensajePersonal = mensajePersonal;
+const salaPesonal = (cliente, uid) => {
+    cliente.join(uid);
+    console.log(`client whit UID : ${uid} conected.`);
+};
+exports.salaPesonal = salaPesonal;
 const desconectar = (cliente, io) => {
     cliente.on('disconnect', () => {
         console.log('Cliente desconectado');
@@ -25,14 +46,20 @@ const mensaje = (cliente, io) => {
 };
 exports.mensaje = mensaje;
 const configurarUsuario = (cliente, io) => {
-    cliente.on('configurar-usuario', (payload, callback) => {
-        exports.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.id);
-        io.emit('usuarios-activos', exports.usuariosConectados.getLista());
-        callback({
-            ok: true,
-            mensaje: `Usuario ${payload.nombre} configurado`
+    try {
+        cliente.on('configurar-usuario', (payload, callback) => {
+            exports.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.id);
+            (0, exports.salaPesonal)(cliente, payload.id);
+            io.emit('usuarios-activos', exports.usuariosConectados.getLista());
+            callback({
+                ok: true,
+                mensaje: `Usuario ${payload.nombre} configurado`
+            });
         });
-    });
+    }
+    catch (e) {
+        throw new Error(e.message);
+    }
 };
 exports.configurarUsuario = configurarUsuario;
 const obtenerUsuarios = (cliente, io) => {
