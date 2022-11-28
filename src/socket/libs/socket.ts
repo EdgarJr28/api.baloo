@@ -59,14 +59,10 @@ export const mensaje = (cliente: Socket, io: socketIO.Server) => {
 // Escuchar mensajes
 export const configurarUsuario = (cliente: Socket, io: socketIO.Server) => {
     try {
-        cliente.on('configurar-usuario', (payload: { nombre: string, id: string }, callback: Function) => {
+        cliente.on('configurar-usuario', (payload: { nombre: string, id: string }) => {
             usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.id)
             salaPesonal(cliente, payload.id)
             io.emit('usuarios-activos', usuariosConectados.getLista());
-            callback({
-                ok: true,
-                mensaje: `Usuario ${payload.nombre} configurado`
-            })
         });
     } catch (e: any) {
         throw new Error(e.message);

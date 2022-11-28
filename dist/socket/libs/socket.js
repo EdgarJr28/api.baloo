@@ -47,14 +47,10 @@ const mensaje = (cliente, io) => {
 exports.mensaje = mensaje;
 const configurarUsuario = (cliente, io) => {
     try {
-        cliente.on('configurar-usuario', (payload, callback) => {
+        cliente.on('configurar-usuario', (payload) => {
             exports.usuariosConectados.actualizarNombre(cliente.id, payload.nombre, payload.id);
             (0, exports.salaPesonal)(cliente, payload.id);
             io.emit('usuarios-activos', exports.usuariosConectados.getLista());
-            callback({
-                ok: true,
-                mensaje: `Usuario ${payload.nombre} configurado`
-            });
         });
     }
     catch (e) {
