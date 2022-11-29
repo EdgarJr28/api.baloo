@@ -10,3 +10,4 @@ export const fsStoryCollection = fsRoot.collection("Storys");
 export const fsAdminPanelUsers = fsRoot.collection("AdminUsers");
 export const fsPublicityCollection = fsRoot.collection("Publicity");
 export const fsConfigCollection = fsRoot.collection("config");
+export const fsChatsCollection = fsRoot.collection("chats");

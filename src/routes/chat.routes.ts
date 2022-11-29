@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { enviarMensajePrivado } from "../controllers/chat.controller";
+import { grabarMensaje, obtenerChat } from "../controllers/chat.controller";
 
-const router=Router();
+const router = Router();
 
-router.post("/chat/mensaje-privado", enviarMensajePrivado);
+router.post("/chat/get", obtenerChat);
 
 
 export default router;

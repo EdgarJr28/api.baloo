@@ -3,26 +3,24 @@ import socketIO from 'socket.io';
 import { UsuariosLista } from '../classes/usuarios-lista';
 import { Usuario } from '../models/usuario';
 import { errorValidationSockets } from './errorValidation';
+import { grabarMensaje } from '../../controllers/chat.controller';
 
 
 
 export const usuariosConectados = new UsuariosLista();
 
 
-
-export const conectarCliente = (cliente: Socket) => {
-    const usuario = new Usuario(cliente.id)
-    cliente.join("1234")
-    usuariosConectados.agregar(usuario)
-
-}
-
 export const mensajePersonal = (cliente: Socket, io: socketIO.Server) => {
-    cliente.on("mensaje-personal", async (payload) => {
-        // TODO: Grabar mensaje
-        //await grabarMensaje(payload);
-        io.to(payload.para).emit("mensaje-personal", payload);
-    });
+    try {
+        cliente.on("mensaje-personal", async (payload) => {
+            // TODO: Grabar mensaje
+            await grabarMensaje(payload);
+            io.to(payload.para).emit("mensaje-personal", payload);
+        });
+    } catch (e: any) {
+        throw new Error(e.message)
+    }
+
 }
 
 export const salaPesonal = (cliente: Socket, uid: any) => {
@@ -84,17 +82,4 @@ export const errorConexSocket = (cliente: Socket, io: socketIO.Server) => {
     io.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);
     });
-}
-
-
-export const mensajePrivado = (cliente: Socket, io: socketIO.Server) => {
-    try {
-        cliente.on('mensaje-privado', (payload: any) => {
-            console.log("entro privado")
-            io.to(cliente.id).emit('mensaje-privado', payload);
-        });
-    } catch (e: any) {
-        console.log(e.message)
-        throw new Error(e.message)
-    }
 }

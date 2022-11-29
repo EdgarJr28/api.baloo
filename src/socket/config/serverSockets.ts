@@ -55,24 +55,19 @@ export default class ServerSocket {
                 socket.configurarUsuario(cliente, this.io);
 
                 // obtener Usuarios Activos
-
                 socket.obtenerUsuarios(cliente, this.io)
-
-                // Conecta Cliente
-                socket.conectarCliente(cliente)
 
                 // sala personal para mensajes
                 socket.mensajePersonal(cliente, this.io)
 
                 // Mensajes
                 socket.mensaje(cliente, this.io);
+
                 // Desconectar
                 socket.desconectar(cliente, this.io);
+                
                 // error en el socket 
                 socket.errorConexSocket(cliente, this.io);
-
-                // mensajePrivado
-                socket.mensajePrivado(cliente, this.io);
 
             });
 
